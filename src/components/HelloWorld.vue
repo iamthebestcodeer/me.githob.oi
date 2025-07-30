@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue';
 
 const skills = {
-  'Languages': ['Python', 'JavaScript/TypeScript', 'C/C#', 'Bash', 'Kotlin', 'Julia'],
+  'Languages': ['Julia', 'Python', 'JavaScript/TypeScript', 'C/C#', 'Bash', 'Kotlin'],
   'AI/ML': ['Machine Learning', 'Deep Learning', 'Neural Networks', 'Computer Vision', 'NLP'],
   'Web & Cloud': ['HTML/CSS', 'REST APIs', 'MongoDB', 'SQL', 'Docker', 'Git'],
   'Tools': ['PyTorch', 'TensorFlow', 'Scikit-learn', 'Pandas', 'NumPy', 'OpenCV']
@@ -42,9 +42,6 @@ onMounted(() => {
             <a href="#" class="social-icon" title="GitHub">
               <i class="fab fa-github"></i>
             </a>
-            <a href="#" class="social-icon" title="LinkedIn">
-              <i class="fab fa-linkedin"></i>
-            </a>
             <a href="#" class="social-icon" title="Email">
               <i class="fas fa-envelope"></i>
             </a>
@@ -56,10 +53,10 @@ onMounted(() => {
     <main class="main-content">
       <!-- About Section -->
       <section class="glass-panel fade-in">
-        <h2>About Me</h2>
-        <p>Hello! I'm Shuey, a dedicated Machine Learning Researcher with over {{ experienceYears }}+ years of experience in the field. My passion lies in exploring the frontiers of artificial intelligence and developing innovative ML solutions to complex problems.</p>
-        <p>My research spans various domains including computer vision, natural language processing, and deep learning. I'm particularly fascinated by the theoretical foundations of machine learning and their practical applications in real-world scenarios.</p>
-      </section>
+  <h2>About Me</h2>
+  <p>Hello! I'm Shuey, a dedicated Machine Learning Researcher with over {{ experienceYears }}+ years of experience in the field. My passion lies in exploring the frontiers of artificial intelligence and developing innovative ML solutions to complex problems. I especially enjoy working with machine learning in Julia.</p>
+  <p>My research spans various domains including computer vision, natural language processing, and deep learning. I'm particularly fascinated by the theoretical foundations of machine learning and their practical applications in real-world scenarios.</p>
+</section>
 
       <!-- Skills Section -->
       <section class="glass-panel fade-in">
@@ -90,9 +87,6 @@ onMounted(() => {
         </a>
         <a href="#" class="contact-button">
           <i class="fab fa-github"></i> GitHub
-        </a>
-        <a href="#" class="contact-button">
-          <i class="fab fa-linkedin"></i> LinkedIn
         </a>
       </div>
     </footer>
@@ -208,6 +202,7 @@ header {
   font-weight: 700;
   margin: 0 0 0.5rem 0;
   background: linear-gradient(45deg, var(--primary), var(--accent));
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -0.5px;
