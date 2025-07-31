@@ -39,10 +39,10 @@ onMounted(() => {
           <h1 class="name">AI & ML Researcher</h1>
           <h2 class="subtitle">Specializing in Machine Learning Testing & Research</h2>
           <div class="social-links">
-            <a href="#" class="social-icon" title="GitHub">
+            <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer" class="social-icon" title="GitHub">
               <i class="fab fa-github"></i>
             </a>
-            <a href="#" class="social-icon" title="Email">
+            <a href="mailto:kitty-thud-economy@duck.com" class="social-icon" title="Email">
               <i class="fas fa-envelope"></i>
             </a>
           </div>
@@ -82,10 +82,10 @@ onMounted(() => {
     <footer class="glass-panel fade-in">
       <h2>Get In Touch</h2>
       <div class="contact-methods">
-        <a href="mailto:your.email@example.com" class="contact-button">
+        <a href="mailto:kitty-thud-economy@duck.com" class="contact-button">
           <i class="fas fa-envelope"></i> Email Me
         </a>
-        <a href="#" class="contact-button">
+        <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer" class="contact-button">
           <i class="fab fa-github"></i> GitHub
         </a>
       </div>
