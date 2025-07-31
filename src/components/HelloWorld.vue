@@ -9,14 +9,14 @@ const skills = {
 };
 
 const currentYear = new Date().getFullYear();
-const experienceYears = currentYear - 2020; // Adjust starting year as needed
+const experienceYears = currentYear - 2024; // Adjust starting year as needed
 
 // Animation on scroll
 const animatedElements = ref<HTMLElement[]>([]);
 
 onMounted(() => {
   animatedElements.value = Array.from(document.querySelectorAll('.fade-in'));
-  
+
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -39,7 +39,8 @@ onMounted(() => {
           <h1 class="name">AI & ML Researcher</h1>
           <h2 class="subtitle">Specializing in Machine Learning Testing & Research</h2>
           <div class="social-links">
-            <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer" class="social-icon" title="GitHub">
+            <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer"
+              class="social-icon" title="GitHub">
               <i class="fab fa-github"></i>
             </a>
             <a href="mailto:kitty-thud-economy@duck.com" class="social-icon" title="Email">
@@ -53,10 +54,14 @@ onMounted(() => {
     <main class="main-content">
       <!-- About Section -->
       <section class="glass-panel fade-in">
-  <h2>About Me</h2>
-  <p>Hello! I'm Shuey, a dedicated Machine Learning Researcher with over {{ experienceYears }}+ years of experience in the field. My passion lies in exploring the frontiers of artificial intelligence and developing innovative ML solutions to complex problems. I especially enjoy working with machine learning in Julia.</p>
-  <p>My research spans various domains including computer vision, natural language processing, and deep learning. I'm particularly fascinated by the theoretical foundations of machine learning and their practical applications in real-world scenarios.</p>
-</section>
+        <h2>About Me</h2>
+        <p>Hello! I'm Shuey, a dedicated Machine Learning Researcher with over {{ experienceYears }}+ years of
+          experience in the field. My passion lies in exploring the frontiers of artificial intelligence and developing
+          innovative ML solutions to complex problems. I especially enjoy working with machine learning in Julia.</p>
+        <p>My research spans various domains including computer vision, natural language processing, and deep learning.
+          I'm particularly fascinated by the theoretical foundations of machine learning and their practical
+          applications in real-world scenarios.</p>
+      </section>
 
       <!-- Skills Section -->
       <section class="glass-panel fade-in">
@@ -85,7 +90,8 @@ onMounted(() => {
         <a href="mailto:kitty-thud-economy@duck.com" class="contact-button">
           <i class="fas fa-envelope"></i> Email Me
         </a>
-        <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer" class="contact-button">
+        <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer"
+          class="contact-button">
           <i class="fab fa-github"></i> GitHub
         </a>
       </div>
@@ -116,7 +122,8 @@ onMounted(() => {
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   margin: 0;
   padding: 0;
   min-height: 100vh;
@@ -128,9 +135,17 @@ body, html {
 }
 
 @keyframes gradientBG {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .glass-container {
@@ -199,13 +214,16 @@ header {
 
 .name {
   font-size: 2.5rem;
-  font-weight: 700;
+  font-weight: 800; /* Slightly bolder */
   margin: 0 0 0.5rem 0;
-  background: linear-gradient(45deg, var(--primary), var(--accent));
+  background: linear-gradient(45deg, #3a7bd5, #00d2ff); /* Brighter, more visible gradient */
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for better contrast */
   letter-spacing: -0.5px;
+  position: relative;
+  display: inline-block;
 }
 
 .subtitle {
@@ -421,23 +439,23 @@ footer {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .social-links {
     justify-content: center;
   }
-  
+
   .main-content {
     grid-template-columns: 1fr;
   }
-  
+
   .glass-panel {
     padding: 1.5rem;
   }
-  
+
   .name {
     font-size: 2rem;
   }
-  
+
   .subtitle {
     font-size: 1.1rem;
   }
@@ -445,8 +463,15 @@ footer {
 
 /* Animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .floating {
