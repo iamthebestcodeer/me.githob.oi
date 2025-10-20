@@ -28,8 +28,9 @@ const prefetch = () => {
 };
 if (typeof window !== "undefined") {
   if ("requestIdleCallback" in window) {
-    // @ts-expect-error: requestIdleCallback not in TS lib by default
-    window.requestIdleCallback(prefetch);
+    window.requestIdleCallback(() => {
+      prefetch();
+    });
   } else {
     const PREFETCH_DELAY_MS = 1500;
     setTimeout(prefetch, PREFETCH_DELAY_MS);
