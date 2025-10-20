@@ -30,6 +30,7 @@ const experienceYears = currentYear - startYear;
 
 const githubUrl = "https://github.com/iamthebesthackerandcoder";
 const emailHref = "mailto:kitty-thud-economy@duck.com";
+const xUrl = "https://x.com/nest_elf";
 </script>
 
 <template>
@@ -49,6 +50,7 @@ const emailHref = "mailto:kitty-thud-economy@duck.com";
         <div class="actions">
           <Button label="Blog" icon="pi pi-book" @click="router.push('/blog')" text />
           <Button label="GitHub" icon="pi pi-github" as="a" :href="githubUrl" target="_blank" rel="noopener" text />
+          <Button label="X" icon="pi pi-twitter" as="a" :href="xUrl" target="_blank" rel="noopener" text />
           <Button label="Email" icon="pi pi-envelope" as="a" :href="emailHref" text />
         </div>
       </template>
@@ -75,6 +77,7 @@ const emailHref = "mailto:kitty-thud-economy@duck.com";
           <div class="cta">
             <Button label="View Blog" icon="pi pi-book" @click="router.push('/blog')" />
             <Button label="GitHub" icon="pi pi-github" as="a" :href="githubUrl" target="_blank" rel="noopener" severity="secondary" outlined />
+            <Button label="X" icon="pi pi-twitter" as="a" :href="xUrl" target="_blank" rel="noopener" severity="secondary" outlined />
           </div>
         </template>
       </Card>
@@ -111,6 +114,7 @@ const emailHref = "mailto:kitty-thud-economy@duck.com";
           <div class="contact">
             <Button label="Email Me" icon="pi pi-envelope" as="a" :href="emailHref" />
             <Button label="GitHub" icon="pi pi-github" as="a" :href="githubUrl" target="_blank" rel="noopener" severity="secondary" outlined />
+            <Button label="X" icon="pi pi-twitter" as="a" :href="xUrl" target="_blank" rel="noopener" severity="secondary" outlined />
           </div>
         </template>
       </Card>
