@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import BlogDetail from "../components/BlogDetail.vue";
-import BlogList from "../components/BlogList.vue";
 import HelloWorld from "../components/HelloWorld.vue";
 
 const routes = [
@@ -12,12 +10,12 @@ const routes = [
   {
     path: "/blog",
     name: "Blog",
-    component: BlogList,
+    component: () => import("../components/BlogList.vue"),
   },
   {
     path: "/blog/:slug",
     name: "BlogDetail",
-    component: BlogDetail,
+    component: () => import("../components/BlogDetail.vue"),
   },
 ];
 
