@@ -20,7 +20,7 @@
 html,
 body {
   min-height: 100vh;
-  font-family: 'Poppins', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Poppins", system-ui, Avenir, Helvetica, Arial, sans-serif;
   color: var(--text);
   background: var(--bg);
   background-size: 400% 400%;

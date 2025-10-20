@@ -1,8 +1,6 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "extends": [
-    "ultracite"
-  ],
+  "extends": ["ultracite"],
   "linter": {
     "rules": {
       "style": {
@@ -12,9 +10,7 @@
   },
   "overrides": [
     {
-      "includes": [
-        "src/**/*.vue"
-      ],
+      "includes": ["src/**/*.vue"],
       "linter": {
         "rules": {
           "correctness": {

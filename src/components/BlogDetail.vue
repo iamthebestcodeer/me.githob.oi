@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import type { BlogPost } from '../types/blog';
-import blogsData from '../data/blogs.json';
+import Button from "primevue/button";
+import Card from "primevue/card";
+import Chip from "primevue/chip";
+import { computed, onMounted, ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import blogsData from "../data/blogs.json" with { type: "json" };
+import type { BlogPost } from "../types/blog";
 
 const router = useRouter();
 const route = useRoute();
@@ -15,135 +18,102 @@ onMounted(() => {
   if (foundBlog) {
     blog.value = foundBlog;
   } else {
-    router.push('/blog');
+    router.push("/blog");
   }
 });
 
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+const formatDate = (dateString: string) =>
+  new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
-};
 
 const goBack = () => {
-  router.push('/blog');
+  router.push("/blog");
 };
 
 const formattedContent = computed(() => {
-  if (!blog.value) return '';
+  if (!blog.value) {
+    return "";
+  }
   return blog.value.content
-    .split('\n')
+    .split("\n")
     .map((p) => `<p>${p}</p>`)
-    .join('');
+    .join("");
 });
 </script>
 
 <template>
-  <div v-if="blog" class="glass-container">
-    <header class="glass-panel">
-      <button @click="goBack" class="back-button">
-        <i class="fas fa-arrow-left"></i> Back to Blog
-      </button>
-    </header>
+  <div v-if="blog" class="blog-detail-container">
+    <div class="header-section">
+      <Button icon="pi pi-arrow-left" label="Back to Blog" @click="goBack" text />
+    </div>
 
-    <article class="glass-panel blog-article">
-      <div v-if="blog.coverImage" class="article-cover">
-        <img :src="blog.coverImage" :alt="blog.title" />
-      </div>
-
-      <div class="article-header">
+    <Card class="blog-article">
+      <template #header>
+        <img v-if="blog.coverImage" :src="blog.coverImage" :alt="blog.title" class="article-cover" />
+      </template>
+      <template #title>
         <h1 class="article-title">{{ blog.title }}</h1>
+      </template>
+      <template #subtitle>
         <div class="article-meta">
           <span class="meta-item">
-            <i class="fas fa-calendar"></i> {{ formatDate(blog.date) }}
+            <i class="pi pi-calendar"></i> {{ formatDate(blog.date) }}
           </span>
-          <span class="meta-item"> <i class="fas fa-user"></i> {{ blog.author }} </span>
+          <span class="meta-item">
+            <i class="pi pi-user"></i> {{ blog.author }}
+          </span>
         </div>
         <div class="article-tags">
-          <span v-for="tag in blog.tags" :key="tag" class="tag">{{ tag }}</span>
+          <Chip v-for="tag in blog.tags" :key="tag" :label="tag" />
         </div>
-      </div>
-
-      <div class="article-content" v-html="formattedContent"></div>
-    </article>
+      </template>
+      <template #content>
+        <div class="article-content" v-html="formattedContent"></div>
+      </template>
+    </Card>
   </div>
 </template>
 
 <style scoped>
-.glass-container {
+.blog-detail-container {
   min-height: 100vh;
-  width: 100%;
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 1.5rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-  padding: 2.5rem;
-}
-
-.back-button {
-  background: rgba(99, 102, 241, 0.8);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
-}
-
-.back-button:hover {
-  background: rgba(99, 102, 241, 1);
+.header-section {
+  margin-bottom: 2rem;
 }
 
 .blog-article {
-  max-width: 900px;
-  margin: 0 auto;
   width: 100%;
 }
 
 .article-cover {
   width: 100%;
   height: 400px;
-  overflow: hidden;
-  border-radius: 1rem;
-  margin-bottom: 2rem;
-}
-
-.article-cover img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
-}
-
-.article-header {
-  margin-bottom: 3rem;
-  text-align: center;
 }
 
 .article-title {
   font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  color: #1f2937;
+  margin-bottom: 1rem;
+  color: var(--p-text-color);
   line-height: 1.2;
+  text-align: center;
 }
 
 .article-meta {
   display: flex;
   gap: 2rem;
   justify-content: center;
-  color: #6b7280;
+  color: var(--p-text-muted-color);
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .meta-item {
@@ -157,20 +127,14 @@ const formattedContent = computed(() => {
   gap: 0.75rem;
   flex-wrap: wrap;
   justify-content: center;
-}
-
-.tag {
-  background: rgba(99, 102, 241, 0.1);
-  color: #6366f1;
-  padding: 0.5rem 1rem;
-  border-radius: 1.5rem;
-  font-size: 0.9rem;
+  margin-top: 1rem;
 }
 
 .article-content {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #1f2937;
+  color: var(--p-text-color);
+  margin-top: 2rem;
 }
 
 .article-content :deep(p) {
@@ -181,27 +145,30 @@ const formattedContent = computed(() => {
   font-size: 1.8rem;
   margin-top: 2.5rem;
   margin-bottom: 1rem;
-  color: #1f2937;
+  color: var(--p-text-color);
+  font-weight: 600;
 }
 
 .article-content :deep(h3) {
   font-size: 1.4rem;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
-  color: #374151;
+  color: var(--p-text-color);
+  font-weight: 600;
 }
 
 .article-content :deep(code) {
-  background: rgba(99, 102, 241, 0.1);
+  background: var(--p-surface-100);
   padding: 0.2rem 0.5rem;
   border-radius: 0.25rem;
   font-family: 'Courier New', monospace;
   font-size: 0.9em;
+  color: var(--p-primary-color);
 }
 
 .article-content :deep(pre) {
-  background: rgba(31, 41, 55, 0.9);
-  color: #f3f4f6;
+  background: var(--p-surface-900);
+  color: var(--p-surface-0);
   padding: 1.5rem;
   border-radius: 0.75rem;
   overflow-x: auto;
@@ -209,10 +176,10 @@ const formattedContent = computed(() => {
 }
 
 .article-content :deep(blockquote) {
-  border-left: 4px solid #6366f1;
+  border-left: 4px solid var(--p-primary-color);
   padding-left: 1.5rem;
   margin: 2rem 0;
-  color: #4b5563;
+  color: var(--p-text-secondary-color);
   font-style: italic;
 }
 

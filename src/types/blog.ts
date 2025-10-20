@@ -1,4 +1,4 @@
-export interface BlogPost {
+export type BlogPost = {
   id: string;
   title: string;
   slug: string;
@@ -8,4 +8,4 @@ export interface BlogPost {
   date: string;
   tags: string[];
   coverImage?: string;
-}
+};

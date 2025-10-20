@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import type { BlogPost } from '../types/blog';
-import blogsData from '../data/blogs.json';
+import Button from "primevue/button";
+import Card from "primevue/card";
+import Chip from "primevue/chip";
+import PrimeDataView from "primevue/dataview";
+import { computed, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import blogsData from "../data/blogs.json" with { type: "json" };
+import type { BlogPost } from "../types/blog";
 
 const router = useRouter();
 const blogs = ref<BlogPost[]>([]);
@@ -14,173 +18,189 @@ onMounted(() => {
 
   // Extract all unique tags
   const tagsSet = new Set<string>();
-  blogs.value.forEach((blog) => {
-    blog.tags.forEach((tag) => tagsSet.add(tag));
-  });
+  for (const blog of blogs.value) {
+    for (const tag of blog.tags) {
+      tagsSet.add(tag);
+    }
+  }
   allTags.value = Array.from(tagsSet);
 });
 
-const filteredBlogs = () => {
-  if (!selectedTag.value) return blogs.value;
-  return blogs.value.filter((blog) => blog.tags.includes(selectedTag.value!));
-};
+const filteredBlogs = computed(() => {
+  if (!selectedTag.value) {
+    return blogs.value;
+  }
+  return blogs.value.filter((blog) =>
+    blog.tags.includes(selectedTag.value as string)
+  );
+});
 
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
+const formatDate = (dateString: string) =>
+  new Date(dateString).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
-};
 
 const goToBlog = (slug: string) => {
   router.push(`/blog/${slug}`);
 };
 
 const goHome = () => {
-  router.push('/');
+  router.push("/");
 };
 </script>
 
 <template>
-  <div class="glass-container">
-    <header class="glass-panel">
-      <div class="blog-header">
-        <button @click="goHome" class="back-button"><i class="fas fa-arrow-left"></i> Home</button>
-        <h1>Blog</h1>
-        <p class="blog-subtitle">Thoughts on AI, ML, and Research</p>
+  <div class="blog-container">
+    <div class="header-section">
+      <div class="header-content">
+        <Button icon="pi pi-arrow-left" label="Home" @click="goHome" text />
+        <div class="header-title">
+          <h1>Blog</h1>
+          <p class="subtitle">Thoughts on AI, ML, and Research</p>
+        </div>
       </div>
-    </header>
-
-    <div class="blog-filters glass-panel" v-if="allTags.length > 0">
-      <button @click="selectedTag = null" :class="['tag-filter', { active: !selectedTag }]">
-        All
-      </button>
-      <button
-        v-for="tag in allTags"
-        :key="tag"
-        @click="selectedTag = tag"
-        :class="['tag-filter', { active: selectedTag === tag }]"
-      >
-        {{ tag }}
-      </button>
     </div>
 
-    <main class="blog-grid">
-      <div v-if="filteredBlogs().length === 0" class="glass-panel no-blogs">
+    <div class="filters-section" v-if="allTags.length > 0">
+      <div class="filter-chips">
+        <Chip :label="'All'" @click="selectedTag = null" :class="{ 'active-chip': !selectedTag }" />
+        <Chip
+          v-for="tag in allTags"
+          :key="tag"
+          :label="tag"
+          @click="selectedTag = tag"
+          :class="{ 'active-chip': selectedTag === tag }"
+        />
+      </div>
+    </div>
+
+    <div class="content-section">
+      <div v-if="filteredBlogs.length === 0" class="empty-state">
+        <i class="pi pi-inbox" style="font-size: 3rem; color: var(--p-text-muted-color)"></i>
         <p>No blog posts yet. Check back soon!</p>
       </div>
 
-      <article
-        v-for="blog in filteredBlogs()"
-        :key="blog.id"
-        class="glass-panel blog-card"
-        @click="goToBlog(blog.slug)"
-      >
-        <div v-if="blog.coverImage" class="blog-cover">
-          <img :src="blog.coverImage" :alt="blog.title" />
-        </div>
-        <div class="blog-content">
-          <div class="blog-meta">
-            <span class="blog-date">{{ formatDate(blog.date) }}</span>
-            <span class="blog-author">by {{ blog.author }}</span>
+      <PrimeDataView v-else :value="filteredBlogs" :layout="'grid'">
+        <template #grid="slotProps">
+          <div class="grid-layout">
+            <Card
+              v-for="blog in slotProps.items"
+              :key="blog.id"
+              class="blog-card"
+              @click="goToBlog(blog.slug)"
+            >
+              <template #header>
+                <img v-if="blog.coverImage" :src="blog.coverImage" :alt="blog.title" class="card-image" />
+              </template>
+              <template #title>
+                <h3 class="card-title">{{ blog.title }}</h3>
+              </template>
+              <template #subtitle>
+                <div class="card-meta">
+                  <span><i class="pi pi-calendar"></i> {{ formatDate(blog.date) }}</span>
+                  <span><i class="pi pi-user"></i> {{ blog.author }}</span>
+                </div>
+              </template>
+              <template #content>
+                <p class="card-excerpt">{{ blog.excerpt }}</p>
+                <div class="card-tags">
+                  <Chip v-for="tag in blog.tags" :key="tag" :label="tag" />
+                </div>
+              </template>
+            </Card>
           </div>
-          <h2 class="blog-title">{{ blog.title }}</h2>
-          <p class="blog-excerpt">{{ blog.excerpt }}</p>
-          <div class="blog-tags">
-            <span v-for="tag in blog.tags" :key="tag" class="tag">{{ tag }}</span>
-          </div>
-        </div>
-      </article>
-    </main>
+        </template>
+      </PrimeDataView>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.glass-container {
+.blog-container {
   min-height: 100vh;
-  width: 100%;
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.glass-panel {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 1.5rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-  padding: 2.5rem;
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+.header-section {
+  margin-bottom: 2rem;
 }
 
-.blog-header {
+.header-content {
   text-align: center;
   position: relative;
 }
 
-.back-button {
+.header-content :deep(.p-button) {
   position: absolute;
   left: 0;
   top: 0;
-  background: rgba(99, 102, 241, 0.8);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background 0.3s ease;
 }
 
-.back-button:hover {
-  background: rgba(99, 102, 241, 1);
+.header-title {
+  padding: 0 4rem;
 }
 
-.blog-header h1 {
+.header-title h1 {
   font-size: 3rem;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, var(--p-primary-color), var(--p-primary-500));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.blog-subtitle {
-  color: #6b7280;
+.subtitle {
+  color: var(--p-text-muted-color);
   font-size: 1.2rem;
 }
 
-.blog-filters {
+.filters-section {
+  margin-bottom: 2rem;
   display: flex;
-  gap: 1rem;
+  justify-content: center;
+}
+
+.filter-chips {
+  display: flex;
+  gap: 0.75rem;
   flex-wrap: wrap;
   justify-content: center;
-  padding: 1.5rem;
 }
 
-.tag-filter {
-  background: rgba(255, 255, 255, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 0.5rem 1.25rem;
-  border-radius: 2rem;
+.filter-chips :deep(.p-chip) {
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 0.9rem;
+  background: var(--p-surface-100);
 }
 
-.tag-filter:hover,
-.tag-filter.active {
-  background: rgba(99, 102, 241, 0.8);
-  color: white;
-  border-color: #6366f1;
+.filter-chips :deep(.p-chip:hover),
+.filter-chips :deep(.active-chip) {
+  background: var(--p-primary-color);
+  color: var(--p-primary-contrast-color);
 }
 
-.blog-grid {
+.content-section {
+  margin-bottom: 2rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.empty-state p {
+  color: var(--p-text-muted-color);
+  font-size: 1.2rem;
+}
+
+.grid-layout {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: 2rem;
@@ -188,89 +208,78 @@ const goHome = () => {
 
 .blog-card {
   cursor: pointer;
-  padding: 0;
-  overflow: hidden;
+  transition: all 0.3s ease;
+  height: 100%;
 }
 
 .blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
+  transform: translateY(-8px);
+  box-shadow: var(--p-card-shadow);
 }
 
-.blog-cover {
+.card-image {
   width: 100%;
   height: 200px;
-  overflow: hidden;
-}
-
-.blog-cover img {
-  width: 100%;
-  height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.blog-card:hover .blog-cover img {
+.blog-card:hover .card-image {
   transform: scale(1.05);
 }
 
-.blog-content {
-  padding: 2rem;
-}
-
-.blog-meta {
-  display: flex;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: #6b7280;
-  margin-bottom: 1rem;
-}
-
-.blog-title {
+.card-title {
   font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #1f2937;
+  margin-bottom: 0.5rem;
+  color: var(--p-text-color);
 }
 
-.blog-excerpt {
-  color: #4b5563;
+.card-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.9rem;
+  color: var(--p-text-muted-color);
+  margin-top: 0.5rem;
+}
+
+.card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-excerpt {
+  color: var(--p-text-secondary-color);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.blog-tags {
+.card-tags {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
 }
 
-.tag {
-  background: rgba(99, 102, 241, 0.1);
-  color: #6366f1;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-}
-
-.no-blogs {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: #6b7280;
-  font-size: 1.2rem;
+.card-tags :deep(.p-chip) {
+  font-size: 0.85rem;
 }
 
 @media (max-width: 768px) {
-  .blog-grid {
+  .grid-layout {
     grid-template-columns: 1fr;
   }
 
-  .blog-header h1 {
+  .header-title h1 {
     font-size: 2rem;
   }
 
-  .back-button {
+  .header-content :deep(.p-button) {
     position: static;
     margin-bottom: 1rem;
+  }
+
+  .header-title {
+    padding: 0;
   }
 }
 </style>
