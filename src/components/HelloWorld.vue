@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const skills = {
-  'Languages': ['Julia', 'Python', 'JavaScript/TypeScript', 'C/C#', 'Bash', 'Kotlin'],
+  Languages: ['Julia', 'Python', 'JavaScript/TypeScript', 'C/C#', 'Bash', 'Kotlin'],
   'AI/ML': ['Machine Learning', 'Deep Learning', 'Neural Networks', 'Computer Vision', 'NLP'],
   'Web & Cloud': ['HTML/CSS', 'REST APIs', 'MongoDB', 'SQL', 'Docker', 'Git'],
-  'Tools': ['PyTorch', 'TensorFlow', 'Scikit-learn', 'Pandas', 'NumPy', 'OpenCV']
+  Tools: ['PyTorch', 'TensorFlow', 'Scikit-learn', 'Pandas', 'NumPy', 'OpenCV'],
 };
 
 const currentYear = new Date().getFullYear();
@@ -17,15 +20,18 @@ const animatedElements = ref<HTMLElement[]>([]);
 onMounted(() => {
   animatedElements.value = Array.from(document.querySelectorAll('.fade-in'));
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
 
-  animatedElements.value.forEach(el => observer.observe(el));
+  animatedElements.value.forEach((el) => observer.observe(el));
 });
 </script>
 
@@ -39,13 +45,21 @@ onMounted(() => {
           <h1 class="name">AI & ML Researcher</h1>
           <h2 class="subtitle">Specializing in Machine Learning Testing & Research</h2>
           <div class="social-links">
-            <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer"
-              class="social-icon" title="GitHub">
+            <a
+              href="https://github.com/iamthebesthackerandcoder"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-icon"
+              title="GitHub"
+            >
               <i class="fab fa-github"></i>
             </a>
             <a href="mailto:kitty-thud-economy@duck.com" class="social-icon" title="Email">
               <i class="fas fa-envelope"></i>
             </a>
+            <button @click="router.push('/blog')" class="social-icon blog-link" title="Blog">
+              <i class="fas fa-blog"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -55,12 +69,17 @@ onMounted(() => {
       <!-- About Section -->
       <section class="glass-panel fade-in">
         <h2>About Me</h2>
-        <p>Hello! I'm Shuey, a dedicated Machine Learning Researcher with over {{ experienceYears }}+ years of
-          experience in the field. My passion lies in exploring the frontiers of artificial intelligence and developing
-          innovative ML solutions to complex problems. I especially enjoy working with machine learning in Julia.</p>
-        <p>My research spans various domains including computer vision, natural language processing, and deep learning.
-          I'm particularly fascinated by the theoretical foundations of machine learning and their practical
-          applications in real-world scenarios.</p>
+        <p>
+          Hello! I'm Shuey, a dedicated Machine Learning Researcher with over {{ experienceYears }}+
+          years of experience in the field. My passion lies in exploring the frontiers of artificial
+          intelligence and developing innovative ML solutions to complex problems. I especially
+          enjoy working with machine learning in Julia.
+        </p>
+        <p>
+          My research spans various domains including computer vision, natural language processing,
+          and deep learning. I'm particularly fascinated by the theoretical foundations of machine
+          learning and their practical applications in real-world scenarios.
+        </p>
       </section>
 
       <!-- Skills Section -->
@@ -73,14 +92,16 @@ onMounted(() => {
               <li v-for="skill in items" :key="skill">
                 <span class="skill-name">{{ skill }}</span>
                 <div class="skill-bar">
-                  <div class="skill-level" :style="{ width: Math.floor(Math.random() * 40) + 60 + '%' }"></div>
+                  <div
+                    class="skill-level"
+                    :style="{ width: Math.floor(Math.random() * 40) + 60 + '%' }"
+                  ></div>
                 </div>
               </li>
             </ul>
           </div>
         </div>
       </section>
-
     </main>
 
     <!-- Contact Section -->
@@ -90,8 +111,12 @@ onMounted(() => {
         <a href="mailto:kitty-thud-economy@duck.com" class="contact-button">
           <i class="fas fa-envelope"></i> Email Me
         </a>
-        <a href="https://github.com/iamthebesthackerandcoder" target="_blank" rel="noopener noreferrer"
-          class="contact-button">
+        <a
+          href="https://github.com/iamthebesthackerandcoder"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="contact-button"
+        >
           <i class="fab fa-github"></i> GitHub
         </a>
       </div>
@@ -100,54 +125,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
-:root {
-  --primary: #6366f1;
-  --primary-light: #818cf8;
-  --secondary: #8b5cf6;
-  --accent: #ec4899;
-  --text: #1f2937;
-  --text-light: #6b7280;
-  --bg: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-  --glass: rgba(255, 255, 255, 0.2);
-  --glass-border: rgba(255, 255, 255, 0.3);
-  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body,
-html {
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  color: var(--text);
-  background: var(--bg);
-  background-size: 400% 400%;
-  animation: gradientBG 15s ease infinite;
-}
-
-@keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
 .glass-container {
   min-height: 100vh;
   width: 100%;
@@ -165,10 +142,14 @@ html {
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   padding: 2.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  transition:
+    opacity 0.6s ease-out,
+    transform 0.6s ease-out;
 }
 
 .glass-panel.visible {
@@ -250,6 +231,8 @@ header {
   font-size: 1.1rem;
   transition: all 0.3s ease;
   text-decoration: none;
+  border: none;
+  cursor: pointer;
 }
 
 .social-icon:hover {
@@ -463,7 +446,6 @@ footer {
 
 /* Animations */
 @keyframes float {
-
   0%,
   100% {
     transform: translateY(0);
