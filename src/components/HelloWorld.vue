@@ -6,7 +6,6 @@ import Chip from "primevue/chip";
 import Divider from "primevue/divider";
 import ScrollTop from "primevue/scrolltop";
 import Toolbar from "primevue/toolbar";
-import { ref } from "vue";
 import { useRouter } from "vue-router";
 import owlImage from "/owl.jpg";
 
