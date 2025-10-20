@@ -28,7 +28,7 @@ const currentYear = new Date().getFullYear();
 const startYear = 2024;
 const experienceYears = currentYear - startYear;
 
-const githubUrl = "https://github.com/iamthebesthackerandcoder";
+const githubUrl = "https://github.com/iamthebestcodeer";
 const emailHref = "mailto:kitty-thud-economy@duck.com";
 const xUrl = "https://x.com/nest_elf";
 </script>
