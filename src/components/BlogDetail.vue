@@ -52,7 +52,7 @@ const formattedContent = computed(() => {
 
     <Card class="blog-article">
       <template #header>
-        <img v-if="blog.coverImage" :src="blog.coverImage" :alt="blog.title" class="article-cover" />
+        <img v-if="blog.coverImage" :src="blog.coverImage" :alt="blog.title" class="article-cover" loading="lazy" decoding="async" />
       </template>
       <template #title>
         <h1 class="article-title">{{ blog.title }}</h1>

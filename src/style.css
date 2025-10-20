@@ -20,11 +20,26 @@
 html,
 body {
   min-height: 100vh;
-  font-family: "Poppins", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Helvetica,
+    Arial,
+    "Noto Sans",
+    "Liberation Sans",
+    sans-serif;
   color: var(--text);
   background: var(--bg);
   background-size: 400% 400%;
   animation: gradientBG 15s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    animation: none;
+  }
 }
 
 @keyframes gradientBG {

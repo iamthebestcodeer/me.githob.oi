@@ -92,7 +92,7 @@ const goHome = () => {
               @click="goToBlog(blog.slug)"
             >
               <template #header>
-                <img v-if="blog.coverImage" :src="blog.coverImage" :alt="blog.title" class="card-image" />
+                <img v-if="blog.coverImage" :src="blog.coverImage" :alt="blog.title" class="card-image" loading="lazy" decoding="async" />
               </template>
               <template #title>
                 <h3 class="card-title">{{ blog.title }}</h3>

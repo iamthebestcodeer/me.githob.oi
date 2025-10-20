@@ -19,3 +19,19 @@ app.use(PrimeVue, {
   },
 });
 app.mount("#app");
+
+// Prefetch lazy routes when the browser is idle to speed up subsequent navigation
+const prefetch = () => {
+  // Blog list and detail are code-split routes; preloading their chunks improves TTI on navigation
+  import("./components/BlogList.vue");
+  import("./components/BlogDetail.vue");
+};
+if (typeof window !== "undefined") {
+  if ("requestIdleCallback" in window) {
+    // @ts-expect-error: requestIdleCallback not in TS lib by default
+    window.requestIdleCallback(prefetch);
+  } else {
+    const PREFETCH_DELAY_MS = 1500;
+    setTimeout(prefetch, PREFETCH_DELAY_MS);
+  }
+}
